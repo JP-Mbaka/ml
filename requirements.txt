@@ -10,7 +10,5 @@ uvicorn
 gunicorn
 openpyxl
 plotly
-seaborn
-statsmodels
-mysql-connector
+seabornxgboost
 joblib
