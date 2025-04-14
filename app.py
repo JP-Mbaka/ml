@@ -35,11 +35,12 @@ def predict_performance(data:Predict):
         data = data.dict()
         department = data['department']
         year = data['year']
+        gender = data['gender']
         difficultyEng = data['difficultyEng']
         qualityEng = data['qualityEng']
             
-        a = englishDT_model.predict([[department,year,difficultyEng,qualityEng]])
-        b = englishXGB_model.predict([[department,year,difficultyEng,qualityEng]])
+        a = englishDT_model.predict([[department,year,gender,difficultyEng,qualityEng]])
+        b = englishXGB_model.predict([[department,year,gender,difficultyEng,qualityEng]])
         
         for x in a:
             for y in b:
@@ -50,6 +51,77 @@ def predict_performance(data:Predict):
         return{
             'result': str(prediction)
         }
+    
+@app.post('/Computer-performance-ml')
+def predict_performance(data:Predict):
+        data = data.dict()
+        department = data['department']
+        year = data['year']
+        gender = data['gender']
+        difficultyComp = data['difficultyComp']
+        qualityComp = data['qualityComp']
+            
+        a = computerDT_model.predict([[department,year,gender,difficultyComp,qualityComp]])
+        b = computerXGB_model.predict([[department,year,gender,difficultyComp,qualityComp]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
+        return{
+            'result': str(prediction)
+        }
+    
+@app.post('/Statistic-performance-ml')
+def predict_performance(data:Predict):
+        data = data.dict()
+        department = data['department']
+        year = data['year']
+        gender = data['gender']
+        difficultyStat = data['difficultyStat']
+        qualityStat = data['qualityStat']
+            
+        a = statisticDT_model.predict([[department,year,gender,difficultyStat,qualityStat]])
+        b = statisticXGB_model.predict([[department,year,gender,difficultyStat,qualityStat]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
+        return{
+            'result': str(prediction)
+        }
+    
+@app.post('/Average-performance-ml')
+def predict_performance(data:Predict):
+        data = data.dict()
+        department = data['department']
+        year = data['year']
+        gender = data['gender']
+        difficultyStat = data['difficultyStat']
+        qualityStat = data['qualityStat']
+        difficultyComp = data['difficultyComp']
+        qualityComp = data['qualityComp']
+        difficultyEng = data['difficultyEng']
+        qualityEng = data['qualityEng']
+            
+        a = averageDT_model.predict([[department,year,gender,difficultyEng,difficultyComp,difficultyStat,qualityEng,qualityComp,qualityStat]])
+        b = averageXGB_model.predict([[department,year,gender,difficultyEng,difficultyComp,difficultyStat,qualityEng,qualityComp,qualityStat]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
+        return{
+            'result': str(prediction)
+        }
+    
     
     
 if __name__ == '__main__':
