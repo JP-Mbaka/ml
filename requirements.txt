@@ -1,0 +1,16 @@
+numpy
+tensorflow
+keras
+scikit-learn
+statsmodels
+matplotlib
+pandas
+fastapi
+uvicorn
+gunicorn
+openpyxl
+plotly
+seaborn
+statsmodels
+mysql-connector
+joblib
