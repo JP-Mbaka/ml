@@ -1,15 +1,10 @@
 numpy
-tensorflow
-keras
-scikit-learn
-statsmodels
+sklearn=1.1.3
 matplotlib
 pandas
 fastapi
 uvicorn
 gunicorn
 openpyxl
-plotly
-seaborn
 xgboost
-joblib
+joblib=1.2.0
