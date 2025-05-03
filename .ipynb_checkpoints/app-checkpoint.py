@@ -13,7 +13,6 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import LabelEncoder
 from xgboost import XGBClassifier
 import joblib 
 
@@ -29,18 +28,6 @@ statisticDT_model = joblib.load('statisticDTModel.pkl')
 statisticXGB_model = joblib.load('statisticXGBModel.pkl')
 averageDT_model = joblib.load('averageDTModel.pkl')
 averageXGB_model = joblib.load('averageXGBModel.pkl')
-
-def flatten_list(nested_list):
-    flattened = []
-    for item in nested_list:
-        if isinstance(item, (list, np.ndarray)):
-            flattened.extend(flatten_list(item))
-        else:
-            flattened.append(item)
-    return flattened
-
-# Example usage
-le = LabelEncoder()
 
 @app.get('/')
 def index():
@@ -61,21 +48,17 @@ def predict_performance(data:Predict):
         difficultyEng = data['difficultyEng']
         qualityEng = data['qualityEng']
             
-        my_list = [le.fit_transform([department, year, gender]), difficultyEng, qualityEng]
-
-        # Flatten the list
-        result = flatten_list(my_list)
-        # print("Flattened:", result)
-
-        # Reshape and predict
-        X_input = np.array([result])  # Shape: (1, N)
-        # prediction = rm_model.predict(X_input)
-        # print("Prediction:", prediction)
-            
-        prediction = englishDT_model.predict(X_input)
+        a = englishDT_model.predict([[department,year,gender,difficultyEng,qualityEng]])
+        b = englishXGB_model.predict([[department,year,gender,difficultyEng,qualityEng]])
         
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
         return{
-            'result': str(prediction[0])
+            'result': str(prediction)
         }
     
 @app.post('/Computer-performance-ml')
@@ -87,21 +70,17 @@ def predict_performance(data:Predict):
         difficultyComp = data['difficultyComp']
         qualityComp = data['qualityComp']
             
-        my_list = [le.fit_transform([department, year, gender]), difficultyComp, qualityComp]
-
-        # Flatten the list
-        result = flatten_list(my_list)
-        # print("Flattened:", result)
-
-        # Reshape and predict
-        X_input = np.array([result])  # Shape: (1, N)
-        # prediction = rm_model.predict(X_input)
-        # print("Prediction:", prediction)
-            
-        prediction = computerDT_model.predict(X_input)
-       
+        a = computerDT_model.predict([[department,year,gender,difficultyComp,qualityComp]])
+        b = computerXGB_model.predict([[department,year,gender,difficultyComp,qualityComp]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
         return{
-            'result': str(prediction[0])
+            'result': str(prediction)
         }
     
 @app.post('/Statistic-performance-ml')
@@ -113,21 +92,17 @@ def predict_performance(data:Predict):
         difficultyStat = data['difficultyStat']
         qualityStat = data['qualityStat']
             
-        my_list = [le.fit_transform([department, year, gender]), difficultyStat, qualityStat]
-
-        # Flatten the list
-        result = flatten_list(my_list)
-        # print("Flattened:", result)
-
-        # Reshape and predict
-        X_input = np.array([result])  # Shape: (1, N)
-        # prediction = rm_model.predict(X_input)
-        # print("Prediction:", prediction)
-            
-        prediction = statisticDT_model.predict(X_input)
-       
+        a = statisticDT_model.predict([[department,year,gender,difficultyStat,qualityStat]])
+        b = statisticXGB_model.predict([[department,year,gender,difficultyStat,qualityStat]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
         return{
-            'result': str(prediction[0])
+            'result': str(prediction)
         }
     
 @app.post('/Average-performance-ml')
@@ -143,21 +118,17 @@ def predict_performance(data:Predict):
         difficultyEng = data['difficultyEng']
         qualityEng = data['qualityEng']
             
-        my_list = [le.fit_transform([department, year, gender]), difficultyEng,difficultyComp,difficultyStat, qualityEng,qualityComp,qualityStat]
-
-        # Flatten the list
-        result = flatten_list(my_list)
-        # print("Flattened:", result)
-
-        # Reshape and predict
-        X_input = np.array([result])  # Shape: (1, N)
-        # prediction = rm_model.predict(X_input)
-        # print("Prediction:", prediction)
-            
-        prediction = averageDT_model.predict(X_input)
-       
+        a = averageDT_model.predict([[department,year,gender,difficultyEng,difficultyComp,difficultyStat,qualityEng,qualityComp,qualityStat]])
+        b = averageXGB_model.predict([[department,year,gender,difficultyEng,difficultyComp,difficultyStat,qualityEng,qualityComp,qualityStat]])
+        
+        for x in a:
+            for y in b:
+                if(x>y):
+                    prediction = x
+                else:
+                    prediction = y
         return{
-            'result': str(prediction[0])
+            'result': str(prediction)
         }
     
     
