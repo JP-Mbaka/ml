@@ -46,12 +46,6 @@ le = LabelEncoder()
 def index():
     return {'message': 'Hello, welcome to Student-Performance-ML'}
 
-@app.head("/items/{item_id}")
-async def get_item_headers(item_id: int):
-    # Do whatever processing you need for HEAD requests
-    # In this example, we're just returning an empty response
-    return {}
-
 @app.post('/English-performance-ml')
 def predict_performance(data:Predict):
         data = data.dict()
