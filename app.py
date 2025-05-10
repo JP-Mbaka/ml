@@ -6,6 +6,7 @@
 from http.client import HTTPException
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import asyncio
 from dict import Predict
@@ -19,6 +20,15 @@ import joblib
 
 
 app = FastAPI()
+
+# Allow CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["*"] for all
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load Model
 englishDT_model = joblib.load('englishDTModel.pkl')
